@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Crypto"
              xmlns:viewModel="clr-namespace:Crypto.ViewModel"
              xmlns:view="clr-namespace:Crypto.View"
-             StartupUri="View\MainWindow.xaml">
+             >
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
