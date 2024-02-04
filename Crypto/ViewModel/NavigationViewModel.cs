@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Input;
 using Crypto.Model;
+using Crypto.Services;
 using Crypto.Util;
 
 namespace Crypto.ViewModel
@@ -13,7 +14,7 @@ namespace Crypto.ViewModel
     public class NavigationViewModel : ViewModelBase
     {
         private object? _currentView;
-
+        private readonly IAssetService assetService;
         public object? CurrentView
         {
             get { return _currentView; }
@@ -29,9 +30,10 @@ namespace Crypto.ViewModel
         public RelayCommand AssetsViewCommand { get; set; }
         public RelayCommand SearchViewCommand { get; set; }
 
-        public NavigationViewModel()
+        public NavigationViewModel(IAssetService assetService)
         {
-            AssetsViewModel = new AssetsViewModel();
+            this.assetService = assetService;
+            AssetsViewModel = new AssetsViewModel(this.assetService);
             SearchViewModel = new SearchViewModel();
             CurrentView = AssetsViewModel;
             AssetsViewCommand = new RelayCommand(_ =>

@@ -4,18 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Crypto.View"
-             xmlns:vm="clr-namespace:Crypto.ViewModel"
+             xmlns:crypto="clr-namespace:Crypto" 
+             d:DataContext="{d:DesignInstance Type=crypto:AssetsViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="650"
+             d:DesignHeight="650" d:DesignWidth="650"
              Background="Gray">
-    <Page.DataContext>
-        <vm:AssetsViewModel />
-    </Page.DataContext>
+    <Page.Resources>
+        <Style x:Key="ItemHeader" TargetType="WrapPanel">
+            <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="4 4"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="ItemBody" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="4 4"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="ItemProperty" TargetType="WrapPanel">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="14 0"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </Page.Resources>
     <StackPanel>
-        <Grid>
-            <Border CornerRadius="0,20,20,0" Margin="0,5,5,0">
-            </Border>
-        </Grid>
         <Label 
             Content="Top-10 currencies" 
             VerticalAlignment="Center"
@@ -23,5 +34,40 @@
             Margin="20, 0, 0, 0"
             Foreground="White"
             FontSize="16"/>
+        <StackPanel HorizontalAlignment="Left">
+            <ListBox Grid.Row="1" x:Name="AssetsList"
+				 ItemsSource="{Binding Assets}"
+				 d:ItemsSource="{d:SampleData ItemCount=10}"
+                 Background="Transparent"
+                 BorderThickness="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <WrapPanel Style="{StaticResource ItemHeader}">
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </WrapPanel>
+                            <StackPanel Style="{StaticResource ItemBody}">
+                                <WrapPanel Style="{StaticResource ItemProperty}">
+                                    <TextBlock Text="Rank: "/>
+                                    <TextBlock Text="{Binding Rank, StringFormat=\{0\,3\}}"/>
+                                </WrapPanel>
+                                <WrapPanel Style="{StaticResource ItemProperty}">
+                                    <TextBlock Text="Symbol: "/>
+                                    <TextBlock Text="{Binding Symbol, StringFormat=\{0\,-7\}}"/>
+                                </WrapPanel>
+                                <WrapPanel Style="{StaticResource ItemProperty}">
+                                    <TextBlock Text="Price: "/>
+                                    <TextBlock Text="{Binding PriceUsd, StringFormat=\{0\,10:F2\}\$}"/>
+                                </WrapPanel>
+                                <WrapPanel Style="{StaticResource ItemProperty}">
+                                    <TextBlock Text="Market Cap: "/>
+                                    <TextBlock Text="{Binding MarketCapUsd, StringFormat=\{0\,10:F2\}\$}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
     </StackPanel>
 </Page>

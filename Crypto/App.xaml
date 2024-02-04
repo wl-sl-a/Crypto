@@ -17,5 +17,6 @@
                 <view:SearchView/>
             </DataTemplate>
         </ResourceDictionary>
+        
     </Application.Resources>
 </Application>

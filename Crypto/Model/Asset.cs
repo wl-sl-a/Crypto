@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crypto.Model
 {
-    public class Asset : INotifyPropertyChanged
+    public class Asset : BaseModel
     {
         private string? id;
         private int? rank;
@@ -33,12 +33,5 @@ namespace Crypto.Model
         public double? PriceUsd { get { return priceUsd; } set { priceUsd = value; OnPropertyChanged("PriceUsd"); } }
         public double? ChangePercent24Hr { get { return changePercent24Hr; } set { changePercent24Hr = value; OnPropertyChanged("ChangePercent24Hr"); } }
         public double? Vwap24Hr { get { return vwap24Hr; } set { vwap24Hr = value; OnPropertyChanged("Vwap24Hr"); } }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
     }
 }

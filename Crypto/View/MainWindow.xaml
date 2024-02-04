@@ -5,16 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:Crypto"
-        xmlns:viewModel="clr-namespace:Crypto.ViewModel"
+        
+        xmlns:crypto="clr-namespace:Crypto" 
+        d:DataContext="{d:DesignInstance Type=crypto:NavigationViewModel}"
         mc:Ignorable="d"
-        Height="600" Width="800"
+        Height="650" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True">
-    <Window.DataContext>
-        <viewModel:NavigationViewModel/>
-    </Window.DataContext>
     <Border Background="#000">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -23,7 +22,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 

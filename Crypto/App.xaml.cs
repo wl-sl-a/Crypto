@@ -7,6 +7,10 @@ using Crypto.View;
 using Crypto.ViewModel;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Crypto.Services;
+using System.Net.Http;
+using System;
 
 namespace Crypto
 {
@@ -15,24 +19,47 @@ namespace Crypto
     /// </summary>
     public partial class App : Application
     {
-        public IServiceProvider? ServiceProvider { get; private set; }
+        private readonly IHost host;
 
-        protected override void OnStartup(StartupEventArgs eventArgs)
+        public App()
         {
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            ServiceProvider = serviceCollection.BuildServiceProvider();
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+            host = Host.CreateDefaultBuilder().ConfigureServices(services => ConfigureServices(services)).Build();
         }
 
-        private void ConfigureServices(ServiceCollection serviceCollection)
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            serviceCollection.AddTransient(typeof(MainWindow));
-            serviceCollection.AddSingleton<NavigationViewModel>();
-            serviceCollection.AddSingleton<AssetsViewModel>();
-            serviceCollection.AddSingleton<SearchViewModel>();
+            base.OnStartup(e);
+
+            using (host)
+            {
+                await host.StartAsync();
+
+                var mainWindow = host.Services.GetService<MainWindow>();
+                var mainWindowViewModel = host.Services.GetService<NavigationViewModel>();
+
+                mainWindow.DataContext = mainWindowViewModel;
+                mainWindow.Show();
+            }
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            using (host)
+            {
+                await host.StopAsync();
+            }
+        }
+
+        private void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSingleton<MainWindow>();
+            services.AddSingleton<NavigationViewModel>();
+            services.AddSingleton<AssetsViewModel>();
+            services.AddSingleton<SearchViewModel>();
+            services.AddSingleton<IAssetService, AssetService>();
+            services.AddScoped<IApiService, ApiService>();
         }
     }
 
