@@ -16,6 +16,9 @@
             <DataTemplate DataType="{x:Type viewModel:SearchViewModel}">
                 <view:SearchView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:AssetDetailsViewModel}">
+                <view:AssetsDetailsView/>
+            </DataTemplate>
         </ResourceDictionary>
         
     </Application.Resources>

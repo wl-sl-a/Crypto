@@ -3,13 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:Crypto"
-        
         xmlns:crypto="clr-namespace:Crypto" 
         d:DataContext="{d:DesignInstance Type=crypto:NavigationViewModel}"
         mc:Ignorable="d"
-        Height="650" Width="800"
+        Height="700" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent"
@@ -46,11 +44,30 @@
                              Style="{StaticResource MenuButton}"
                              Command="{Binding SearchViewCommand}"/>
             </StackPanel>
-            <Frame Grid.Column="1"
+            <ContentControl x:Name="Pages"
+                   Grid.Column="1"
                    Grid.Row="1"
-                   NavigationUIVisibility="Hidden"
                    Margin="10"
                    Content="{Binding CurrentView}"/>
+            <Border Height="30"
+                    CornerRadius="0, 0, 0, 0"
+                    Width="30"
+                    Grid.Column="1" 
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Right"
+                    BorderThickness="0"
+                    >
+                <Button x:Name="Close"
+                        Foreground="White"
+                        Background="Black"
+                        FontSize="16"
+                        Width="30"
+                        Height="30"
+                        BorderBrush="Transparent"
+                        Command="{Binding ExitCommand}">
+                    <TextBlock>X</TextBlock>
+                </Button>
+            </Border>
         </Grid>
     </Border>
 </Window>

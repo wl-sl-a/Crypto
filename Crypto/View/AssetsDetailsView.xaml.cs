@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Crypto.View
 {
     /// <summary>
-    /// Логика взаимодействия для SearchView.xaml
+    /// Логика взаимодействия для AssetsDetailsView.xaml
     /// </summary>
-    public partial class SearchView : UserControl
+    public partial class AssetsDetailsView : UserControl
     {
-        public SearchView()
+        public AssetsDetailsView()
         {
             InitializeComponent();
         }

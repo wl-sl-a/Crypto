@@ -18,7 +18,7 @@ namespace Crypto.View
     /// <summary>
     /// Логика взаимодействия для AssetsView.xaml
     /// </summary>
-    public partial class AssetsView : Page
+    public partial class AssetsView : UserControl
     {
         public AssetsView()
         {

@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Crypto.View.AssetsDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Crypto.View"
+             xmlns:vm="clr-namespace:Crypto.ViewModel"
+             d:DataContext="{d:DesignInstance Type=crypto:AssetDetailsViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="650"
+             Background="Gray">
+    <UserControl.Resources>
+        <Style x:Key="PropertyPanel" TargetType="WrapPanel">
+            <Setter Property="Margin" Value="8"/>
+        </Style>
+        <Style x:Key="HeaderPropertyPanel" TargetType="WrapPanel"
+			   BasedOn="{StaticResource PropertyPanel}">
+            <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid>
+            <Border CornerRadius="0,20,20,0" Margin="0,5,5,0">
+            </Border>
+        </Grid>
+        <Label 
+            Content="Details" 
+            VerticalAlignment="Center"
+            HorizontalAlignment="Left"
+            Margin="20, 0, 0, 0"
+            Foreground="White"
+            FontSize="16"/>
+        <Grid d:Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <WrapPanel Style="{StaticResource HeaderPropertyPanel}">
+                    <TextBlock Text="{Binding AssetId}"
+						   d:Text="Name"/>
+                    <TextBlock Text="{Binding Asset.Symbol, StringFormat=' ({0})'}"
+						   d:Text=" Symbol"/>
+                </WrapPanel>
+                <WrapPanel Style="{StaticResource PropertyPanel}">
+                    <TextBlock Text="{Binding Asset.PriceUsd, StringFormat='${0:F4}'}"
+						   d:Text="PriceUsd"/>
+                    <TextBlock Text="{Binding Asset.ChangePercent24Hr, StringFormat=' ({0:F4}%)'}"
+						   d:Text=" (Change%)"/>
+                </WrapPanel>
+                <WrapPanel Style="{StaticResource PropertyPanel}">
+                    <TextBlock Text="Rank: "/>
+                    <TextBlock Text="{Binding Asset.Rank, StringFormat='0'}"
+						   d:Text="Rank"/>
+                </WrapPanel>
+                <WrapPanel Style="{StaticResource PropertyPanel}">
+                    <TextBlock Text="Market Cap: "/>
+                    <TextBlock Text="{Binding Asset.MarketCapUsd, StringFormat=' $0'}"
+						   d:Text="MarketCapUsd"/>
+                </WrapPanel>
+                <WrapPanel Style="{StaticResource PropertyPanel}">
+                    <TextBlock Text="Volume (24Hr): "/>
+                    <TextBlock Text="{Binding Asset.VolumeUsd24Hr, StringFormat=' $0'}"
+						   d:Text="VolumeUsd24Hr"/>
+                </WrapPanel>
+                <WrapPanel Style="{StaticResource PropertyPanel}">
+                    <TextBlock Text="Supply: "/>
+                    <TextBlock Text="{Binding Asset.Supply, StringFormat='0'}"
+						   d:Text="Supply"/>
+                </WrapPanel>
+                <WrapPanel Style="{StaticResource PropertyPanel}">
+                    <TextBlock Text="Average (24Hr): "/>
+                    <TextBlock Text="{Binding Asset.Vwap24Hr, StringFormat=' $0'}"
+						   d:Text="Vwap24Hr"/>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>

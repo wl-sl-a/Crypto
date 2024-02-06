@@ -11,7 +11,9 @@ namespace Crypto.ViewModel
 {
     public class AssetsViewModel : ViewModelBase
     {
-        public NavigationViewModel? NavigationViewModel { get; set; }
+        public static NavigationViewModel? NavigationViewModel { get; set; }
+        public AssetDetailsViewModel? AssetDetailsViewModel { get; set; }
+        public RelayCommand AssetDetailsCommand { get; set; }
         private readonly IAssetService assetService;
         private List<Asset>? assets;
 
@@ -25,9 +27,24 @@ namespace Crypto.ViewModel
             }
         }
 
-        public AssetsViewModel(IAssetService assetService)
+        public AssetsViewModel(IAssetService assetService, NavigationViewModel navigationViewModel)
         {
+            NavigationViewModel = navigationViewModel;
             this.assetService = assetService;
+            AssetDetailsCommand = new RelayCommand(obj =>
+            {
+                var assetId = obj as string;
+
+                if (assetId == null)
+                {
+                    return;
+                }
+                AssetDetailsViewModel = AssetDetailsViewModel.GetViewModel(assetId, this.assetService);
+                NavigationViewModel!.CurrentView = AssetDetailsViewModel;
+            }, _ =>
+            {
+                return true;
+            });
 
             Task.Factory.StartNew(async () =>
             {
