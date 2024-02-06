@@ -3,25 +3,94 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Crypto.View"
              xmlns:vm="clr-namespace:Crypto.ViewModel"
+             d:DataContext="{d:DesignInstance Type=crypto:SearchViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="650"
              Background="Gray">
-    <UserControl.DataContext>
-        <vm:SearchViewModel />
-    </UserControl.DataContext>
-    <StackPanel>
-        <Grid>
-            <Border CornerRadius="0,20,20,0" Margin="0,5,5,0">
-            </Border>
-        </Grid>
-        <Label 
-            Content="Search" 
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            Margin="20, 0, 0, 0"
-            Foreground="White"
-            FontSize="16"/>
-    </StackPanel>
+    <UserControl.Resources>
+        <Style x:Key="ItemHeader" TargetType="WrapPanel">
+            <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="4 4"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="ItemBody" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="4 4"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="ItemProperty" TargetType="WrapPanel">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 0"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Label 
+               Content="Search" 
+               VerticalAlignment="Center"
+               HorizontalAlignment="Left"
+               Margin="20, 0, 0, 0"
+               Foreground="White"
+               FontSize="16"/>
+            <Grid>
+                <TextBox Text="{Binding SearchParam, UpdateSourceTrigger=PropertyChanged}" Margin="10 10 10 10">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding SearchCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+            </Grid>
+            <StackPanel HorizontalAlignment="Left" Height="Auto">
+                <ListBox Grid.Row="1" x:Name="AssetsList"
+		                 ItemsSource="{Binding Assets}"
+		                 d:ItemsSource="{d:SampleData}"
+                         Background="Transparent"
+                         BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <WrapPanel Style="{StaticResource ItemHeader}" >
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </WrapPanel>
+                                <StackPanel Style="{StaticResource ItemBody}">
+                                    <WrapPanel Style="{StaticResource ItemProperty}" Width="60">
+                                        <TextBlock Text="Rank: "/>
+                                        <TextBlock Text="{Binding Rank, StringFormat=\{0\,3\}}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Style="{StaticResource ItemProperty}" Width="90">
+                                        <TextBlock Text="Symbol: "/>
+                                        <TextBlock Text="{Binding Symbol, StringFormat=\{0\,-7\}}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Style="{StaticResource ItemProperty}" Width="100">
+                                        <TextBlock Text="Price: "/>
+                                        <TextBlock Text="{Binding PriceUsd, StringFormat=\{0\,10:F2\}\$}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Style="{StaticResource ItemProperty}" Width="170">
+                                        <TextBlock Text="Market Cap: "/>
+                                        <TextBlock Text="{Binding MarketCapUsd, StringFormat=\{0\,10:F2\}\$}"/>
+                                    </WrapPanel>
+                                    <Button x:Name="Details"
+                                            Foreground="White"
+                                            Background="Transparent"
+                                            FontSize="14"
+                                            Width="60"
+                                            Height="20"
+                                            BorderBrush="Transparent"
+                                            Command="{Binding ElementName=AssetsList, Path=DataContext.AssetDetailsCommand}"
+                                            CommandParameter="{Binding Id}">
+                                        <TextBlock>Details</TextBlock>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

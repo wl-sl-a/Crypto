@@ -37,7 +37,7 @@ namespace Crypto.ViewModel
 
 
         private void Assets(object obj) => CurrentView = new AssetsViewModel(this.assetService, this);
-        private void Search(object obj) => CurrentView = new SearchViewModel();
+        private void Search(object obj) => CurrentView = new SearchViewModel(this.assetService, this);
         private void AssetDetails(object obj) => CurrentView = new AssetDetailsViewModel(this.assetService);
 
 

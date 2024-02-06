@@ -19,7 +19,7 @@ namespace Crypto.Services
         {
             this.apiService = apiService;
         }
-        public async Task<List<Asset>>? GetAssetsAsync()
+        public async Task<List<Asset>?> GetAssetsAsync()
         {
             string? apiUrl = "assets?limit=10";
             var response = await apiService.GetResponse(apiUrl);
@@ -49,6 +49,23 @@ namespace Crypto.Services
                 if (asset != null)
                 {
                     return asset.Data;
+                }
+            }
+            return null;
+        }
+        public async Task<List<Asset>?> SearchAssetsAsync(string param)
+        {
+            string? apiUrl = $"assets?search={param}";
+            var response = await apiService.GetResponse(apiUrl);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                var assets = JsonConvert.DeserializeObject<AssetsResponse>(responseBody);
+
+                if (assets != null)
+                {
+                    return assets.Data;
                 }
             }
             return null;
