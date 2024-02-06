@@ -17,67 +17,128 @@
 			   BasedOn="{StaticResource PropertyPanel}">
             <Setter Property="TextBlock.FontWeight" Value="Bold"/>
         </Style>
+        <Style x:Key="ItemHeader" TargetType="WrapPanel">
+             <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+             <Setter Property="Margin" Value="4 4"/>
+             <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="ItemBody" TargetType="StackPanel">
+             <Setter Property="Orientation" Value="Horizontal"/>
+             <Setter Property="Margin" Value="4 4"/>
+             <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style x:Key="ItemProperty" TargetType="WrapPanel">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 0"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
     </UserControl.Resources>
-    <StackPanel>
-        <Grid>
-            <Border CornerRadius="0,20,20,0" Margin="0,5,5,0">
-            </Border>
-        </Grid>
-        <Label 
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Grid>
+                <Border CornerRadius="0,20,20,0" Margin="0,5,5,0">
+                </Border>
+            </Grid>
+            <Label 
             Content="Details" 
             VerticalAlignment="Center"
             HorizontalAlignment="Left"
             Margin="20, 0, 0, 0"
             Foreground="White"
             FontSize="16"/>
-        <Grid d:Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <StackPanel>
-                <WrapPanel Style="{StaticResource HeaderPropertyPanel}">
-                    <TextBlock Text="{Binding AssetId}"
+            <Grid d:Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <WrapPanel Style="{StaticResource HeaderPropertyPanel}">
+                        <TextBlock Text="{Binding AssetId}"
 						   d:Text="Name"/>
-                    <TextBlock Text="{Binding Asset.Symbol, StringFormat=' ({0})'}"
+                        <TextBlock Text="{Binding Asset.Symbol, StringFormat=' ({0})'}"
 						   d:Text=" Symbol"/>
-                </WrapPanel>
-                <WrapPanel Style="{StaticResource PropertyPanel}">
-                    <TextBlock Text="{Binding Asset.PriceUsd, StringFormat='${0:F4}'}"
+                    </WrapPanel>
+                    <WrapPanel Style="{StaticResource PropertyPanel}">
+                        <TextBlock Text="{Binding Asset.PriceUsd, StringFormat='${0:F4}'}"
 						   d:Text="PriceUsd"/>
-                    <TextBlock Text="{Binding Asset.ChangePercent24Hr, StringFormat=' ({0:F4}%)'}"
+                        <TextBlock Text="{Binding Asset.ChangePercent24Hr, StringFormat=' ({0:F4}%)'}"
 						   d:Text=" (Change%)"/>
-                </WrapPanel>
-                <WrapPanel Style="{StaticResource PropertyPanel}">
-                    <TextBlock Text="Rank: "/>
-                    <TextBlock Text="{Binding Asset.Rank, StringFormat='0'}"
+                    </WrapPanel>
+                    <WrapPanel Style="{StaticResource PropertyPanel}">
+                        <TextBlock Text="Rank: "/>
+                        <TextBlock Text="{Binding Asset.Rank, StringFormat='0'}"
 						   d:Text="Rank"/>
-                </WrapPanel>
-                <WrapPanel Style="{StaticResource PropertyPanel}">
-                    <TextBlock Text="Market Cap: "/>
-                    <TextBlock Text="{Binding Asset.MarketCapUsd, StringFormat=' $0'}"
+                    </WrapPanel>
+                    <WrapPanel Style="{StaticResource PropertyPanel}">
+                        <TextBlock Text="Market Cap: "/>
+                        <TextBlock Text="{Binding Asset.MarketCapUsd, StringFormat=' $0'}"
 						   d:Text="MarketCapUsd"/>
-                </WrapPanel>
-                <WrapPanel Style="{StaticResource PropertyPanel}">
-                    <TextBlock Text="Volume (24Hr): "/>
-                    <TextBlock Text="{Binding Asset.VolumeUsd24Hr, StringFormat=' $0'}"
+                    </WrapPanel>
+                    <WrapPanel Style="{StaticResource PropertyPanel}">
+                        <TextBlock Text="Volume (24Hr): "/>
+                        <TextBlock Text="{Binding Asset.VolumeUsd24Hr, StringFormat=' $0'}"
 						   d:Text="VolumeUsd24Hr"/>
-                </WrapPanel>
-                <WrapPanel Style="{StaticResource PropertyPanel}">
-                    <TextBlock Text="Supply: "/>
-                    <TextBlock Text="{Binding Asset.Supply, StringFormat='0'}"
+                    </WrapPanel>
+                    <WrapPanel Style="{StaticResource PropertyPanel}">
+                        <TextBlock Text="Supply: "/>
+                        <TextBlock Text="{Binding Asset.Supply, StringFormat='0'}"
 						   d:Text="Supply"/>
-                </WrapPanel>
-                <WrapPanel Style="{StaticResource PropertyPanel}">
-                    <TextBlock Text="Average (24Hr): "/>
-                    <TextBlock Text="{Binding Asset.Vwap24Hr, StringFormat=' $0'}"
+                    </WrapPanel>
+                    <WrapPanel Style="{StaticResource PropertyPanel}">
+                        <TextBlock Text="Average (24Hr): "/>
+                        <TextBlock Text="{Binding Asset.Vwap24Hr, StringFormat=' $0'}"
 						   d:Text="Vwap24Hr"/>
-                </WrapPanel>
+                    </WrapPanel>
+                </StackPanel>
+            </Grid>
+            <StackPanel>
+                <Label 
+                 Content="Markets" 
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left"
+                 Margin="20, 0, 0, 0"
+                 Foreground="White"
+                 FontSize="16"/>
+                <StackPanel HorizontalAlignment="Left">
+                    <ListBox Grid.Row="1" x:Name="AssetsList"
+			             ItemsSource="{Binding AssetMarkets}"
+			             d:ItemsSource="{d:SampleData ItemCount=10}"
+                         Background="Transparent"
+                         BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <WrapPanel Style="{StaticResource ItemHeader}">
+                                        <TextBlock Text="{Binding ExchangeId}"></TextBlock>
+                                    </WrapPanel>
+                                    <StackPanel Style="{StaticResource ItemBody}">
+                                        <WrapPanel Style="{StaticResource ItemProperty}" Width="100">
+                                            <TextBlock Text="Quote Id: "/>
+                                            <TextBlock Text="{Binding QuoteId}"/>
+                                        </WrapPanel>
+                                        <WrapPanel Style="{StaticResource ItemProperty}" Width="130">
+                                            <TextBlock Text="Quote Symbol: "/>
+                                            <TextBlock Text="{Binding QuoteSymbol}"/>
+                                        </WrapPanel>
+                                        <WrapPanel Style="{StaticResource ItemProperty}" Width="100">
+                                            <TextBlock Text="Price: "/>
+                                            <TextBlock Text="{Binding PriceUsd, StringFormat=\{0\,10:F2\}\$}"/>
+                                        </WrapPanel>
+                                        <WrapPanel Style="{StaticResource ItemProperty}" Width="180">
+                                            <TextBlock Text="Volume24Hr: "/>
+                                            <TextBlock Text="{Binding VolumeUsd24Hr, StringFormat=\{0\,10:F2\}\$}"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
             </StackPanel>
-        </Grid>
-    </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

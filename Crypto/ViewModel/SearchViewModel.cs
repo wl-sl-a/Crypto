@@ -15,6 +15,7 @@ namespace Crypto.ViewModel
         public AssetDetailsViewModel? AssetDetailsViewModel { get; set; }
         public RelayCommand AssetDetailsCommand { get; set; }
         private readonly IAssetService assetService;
+        private readonly IAssetMarketService assetMarketService;
         private List<Asset>? assets;
         private string? searchParam;
         public RelayCommand SearchCommand { get; set; }
@@ -37,10 +38,11 @@ namespace Crypto.ViewModel
             }
         }
 
-        public SearchViewModel(IAssetService assetService, NavigationViewModel navigationViewModel)
+        public SearchViewModel(IAssetService assetService, NavigationViewModel navigationViewModel, IAssetMarketService assetMarketService)
         {
             NavigationViewModel = navigationViewModel;
             this.assetService = assetService;
+            this.assetMarketService = assetMarketService;
             SearchCommand = new RelayCommand(async _ =>
             {
                 Assets = await this.assetService.SearchAssetsAsync(SearchParam);
@@ -57,7 +59,7 @@ namespace Crypto.ViewModel
                 {
                     return;
                 }
-                AssetDetailsViewModel = AssetDetailsViewModel.GetViewModel(assetId, this.assetService);
+                AssetDetailsViewModel = AssetDetailsViewModel.GetViewModel(assetId, this.assetService, this.assetMarketService);
                 NavigationViewModel!.CurrentView = AssetDetailsViewModel;
             }, _ =>
             {

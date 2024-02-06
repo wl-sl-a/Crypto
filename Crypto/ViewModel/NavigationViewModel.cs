@@ -16,6 +16,7 @@ namespace Crypto.ViewModel
     {
         private object? _currentView;
         private readonly IAssetService assetService;
+        private readonly IAssetMarketService assetMarketService;
         public object? CurrentView
         {
             get { return _currentView; }
@@ -36,14 +37,15 @@ namespace Crypto.ViewModel
         public ICommand ExitCommand { get; set; }
 
 
-        private void Assets(object obj) => CurrentView = new AssetsViewModel(this.assetService, this);
-        private void Search(object obj) => CurrentView = new SearchViewModel(this.assetService, this);
-        private void AssetDetails(object obj) => CurrentView = new AssetDetailsViewModel(this.assetService);
+        private void Assets(object obj) => CurrentView = new AssetsViewModel(this.assetService, this, this.assetMarketService);
+        private void Search(object obj) => CurrentView = new SearchViewModel(this.assetService, this, this.assetMarketService);
+        private void AssetDetails(object obj) => CurrentView = new AssetDetailsViewModel(this.assetService, this.assetMarketService);
 
 
-        public NavigationViewModel(IAssetService assetService)
+        public NavigationViewModel(IAssetService assetService, IAssetMarketService assetMarketService)
         {
             this.assetService = assetService;
+            this.assetMarketService = assetMarketService;
             AssetsViewCommand = new RelayCommand(Assets);
             SearchViewCommand = new RelayCommand(Search);
             AssetDetailsViewCommand = new RelayCommand(AssetDetails);
@@ -56,7 +58,7 @@ namespace Crypto.ViewModel
                 return true;
             });
 
-            CurrentView = new AssetsViewModel(this.assetService, this);
+            CurrentView = new AssetsViewModel(this.assetService, this, this.assetMarketService);
         }
 
         

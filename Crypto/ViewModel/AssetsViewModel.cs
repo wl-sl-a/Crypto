@@ -15,6 +15,7 @@ namespace Crypto.ViewModel
         public AssetDetailsViewModel? AssetDetailsViewModel { get; set; }
         public RelayCommand AssetDetailsCommand { get; set; }
         private readonly IAssetService assetService;
+        private readonly IAssetMarketService assetMarketService;
         private List<Asset>? assets;
 
         public List<Asset>? Assets
@@ -27,10 +28,11 @@ namespace Crypto.ViewModel
             }
         }
 
-        public AssetsViewModel(IAssetService assetService, NavigationViewModel navigationViewModel)
+        public AssetsViewModel(IAssetService assetService, NavigationViewModel navigationViewModel, IAssetMarketService assetMarketService)
         {
             NavigationViewModel = navigationViewModel;
             this.assetService = assetService;
+            this.assetMarketService = assetMarketService;
             AssetDetailsCommand = new RelayCommand(obj =>
             {
                 var assetId = obj as string;
@@ -39,7 +41,7 @@ namespace Crypto.ViewModel
                 {
                     return;
                 }
-                AssetDetailsViewModel = AssetDetailsViewModel.GetViewModel(assetId, this.assetService);
+                AssetDetailsViewModel = AssetDetailsViewModel.GetViewModel(assetId, this.assetService, this.assetMarketService);
                 NavigationViewModel!.CurrentView = AssetDetailsViewModel;
             }, _ =>
             {

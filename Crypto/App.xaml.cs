@@ -60,7 +60,8 @@ namespace Crypto
             services.AddSingleton<SearchViewModel>();
             services.AddSingleton<AssetDetailsViewModel>();
             services.AddSingleton<IAssetService, AssetService>();
-            services.AddScoped<IApiService, ApiService>();
+            services.AddSingleton<IAssetMarketService, AssetMarketService>();
+            services.AddSingleton<IApiService, ApiService>();
         }
     }
 
